@@ -1,40 +1,106 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import {useState} from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart,removeFromCart } from "../Redux/features/cartReducers";
+// import PopUpBtn from "../utils/features";
 
 const HomePage = () => {
-    const products = useSelector((state) => {return state.productData});
-    console.log(products)
+        useDispatch(addToCart(JSON.parse(localStorage.getItem("cart"))));
+    
+
+    const products = useSelector((state) => {
+        return state.productData;
+    });
+
+
+    const categories = [...new Set(products.map((product) => product.category))];
+    const dispatch = useDispatch();
+    const [showPopup, setShowPopup] = useState(false);
+
+
+    const handleAddToCart = (product, target) => {
+        let quantity = parseInt(target.value);
+        quantity = quantity + 1;
+        target.value = quantity;
+        const updatedProduct = { ...product, quantity };
+        dispatch(addToCart(updatedProduct));
+        target.innerText = "Added";
+        localStorage.setItem("cart", JSON.stringify(updatedProduct));
+        
+        setShowPopup(true); // Show popup when an item is added
+        setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
+    };
+
     return (
-        <div className="min-h-screen bg-gray-100">
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <h1 className="text-3xl font-bold text-gray-900">E-Commerce Home</h1>
-                </div>
-            </header>
+        <div className=" min-h-screen bg-gray-100">
             <main>
-                <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                <div className="mx-auto py-6 sm:px-6 lg:px-8">
                     <div className="px-4 py-6 sm:px-0">
                         <div className="border-4 border-dashed border-gray-200 rounded-lg h-auto p-5">
-                            <h2 className="text-2xl font-semibold text-gray-700">Welcome to our store!</h2>
-                            <p className="mt-4 text-gray-600">Browse our collection of amazing products.</p>
-             
-                                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                    {Array.from(products).map((product, index) => (
-                                        <li key={product.id} className="flex flex-col rounded-lg p-3 border-black border-2 border-solid">
-                                            <div className='overflow-hidden h-52 m-2'>
-                                                <img className="w-fit h-full object-cover m-auto rounded-md" src={product.image} alt={product.title} />
-                                            </div>
-                                            <div className='flex flex-col'>
-                                            <p className="title w-full m-2 font-extrabold rounded-md mb-2  overflow-hidden overflow-ellipsis">{product.title}</p>
-                                            <p className="h-24 m-2 ml-0 mr-0 font-semibold w-full rounded-md mb-2 overflow-ellipsis overflow-hidden">Description : {product.description}</p>
-                                            <p className="h-auto m-2 p-2 bg-orange-500  flex-row font-extrabold w-max text-black rounded-md mb-2" >RS. {product.price}</p>
-                                            <p className="w-max h-auto m-2 p-2 bg-black text-white font-extrabold  flex-row rounded-md">#{product.category}</p>
-                                            </div>
+                            <h2 className="text-2xl font-semibold w-max mx-auto text-gray-700">
+                                Welcome to our store!
+                            </h2>
+                            <p className="mt-4 text-gray-600 w-max mx-auto my-12">
+                                Browse our collection of amazing products.
+                            </p>
 
-                                        </li>
-                                    ))}
-                                </ul>
-                  
+                            {categories.map((category) => (
+                                <div key={category} className="mb-8">
+                                    <h3 className="text-3xl font-bold text-gray-800  border-b-2 border-gray-300  mx-auto my-12 uppercase w-max">
+                                        {category}
+                                    </h3>
+                                    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                        {products
+                                            .filter((product) => product.category === category)
+                                            .map((product) => (
+                                                <li
+                                                    key={product.id}
+                                                    style={{ height: "30rem" }}
+                                                    className="flex flex-col relative rounded-lg p-3 border-black border-2 border-solid"
+                                                >
+                                                    <div className="absolute z-10 top-0 right-0">
+                                                        <button className="w-max h-auto m-2 p-2 bg-black text-white font-extrabold text-xs flex-row rounded-md">
+                                                            #{product.category}
+                                                        </button>
+                                                    </div>
+                                                    <div  style={{height:"40%"}} className="overflow-hidden relative mt-2 flex m-2">
+                                                        <div className="h-full w-full">
+                                                            <img
+                                                                className="w-fit h-full object-cover m-auto rounded-md"
+                                                                src={product.image}
+                                                                alt={product.title}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        style={{ gridTemplateRows: "20% 40% 40%" }}
+                                                        className="grid"
+                                                    >
+                                                        <p className="title font-extrabold rounded-md mb-2 overflow-auto overflow-ellipsis">
+                                                            {product.title}
+                                                        </p>
+                                                        <p className="ml-0 mr-0 font-semibold w-full rounded-md mb-2 overflow-ellipsis overflow-auto">
+                                                            Description : {product.description}
+                                                        </p>
+                                                        <div>
+                                                            <p className="h-max m-1 inline-block p-2  bg-orange-500 font-medium w-max text-black rounded-md mb-2">
+                                                                RS. {product.price}
+                                                            </p>
+                                                            <button value="0" onClick={()=>{handleAddToCart(product,event.target)}}  className="p-2 m-4 w-max mb-2 inline-block bg-green-500 hover:bg-green-700 text-white font-bold rounded-md">
+                                                                Add to Cart
+                                                            </button>
+                                                            <button className='m-1'>
+                                                                <a href={`/products/${product.id}`} className="p-2 bg-rose-400 font-medium w-max text-black rounded-md mb-2 inline-block">View Details</a>
+                                                            </button>
+                                                            {/* <p className='p-2  m-1 w-max mb-2 inline-block bg-emerald-950 hover:bg-emerald-900 text-white font-bold rounded-md'>
+                                                                {product.quantity}
+                                                            </p> */}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                    </ul>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -44,5 +110,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-

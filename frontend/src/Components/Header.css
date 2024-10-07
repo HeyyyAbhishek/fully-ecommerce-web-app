@@ -1,0 +1,14 @@
+/* Default header styling */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+    /* background-color: white; */
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* This class will hide the header when scrolling down */
+  .header-hidden {
+    transform: translateY(-100%);
+  }
+  
