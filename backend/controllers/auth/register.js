@@ -32,7 +32,7 @@ const register = async (req, res) => {
 			email: email,
 			password: password,
 			salt: salt,
-			role: "blogger",
+			role: "user",
 		});
 
 		return res.status(200).json({ message: "User Created", ok: true });

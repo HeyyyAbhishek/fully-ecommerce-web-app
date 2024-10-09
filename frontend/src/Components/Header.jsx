@@ -37,7 +37,7 @@ const Header = () => {
     return (
         <header className={` bg-gray-800 p-4 flex items-center sticky-header ${isHeaderHidden ? 'header-hidden' : ''}`}>
             <div className="logo min-h-12 flex items-center text-white text-2xl basis-2/5 justify-center">
-                <Link className='font-extrabold' to="/">E-Commerce</Link>
+                <Link className='font-extrabold' to="/">hek_</Link>
             </div>
             <nav style={{flexBasis:"60%"}} className='flex justify-center'>
                 <ul className="flex space-x-4 justify-center">

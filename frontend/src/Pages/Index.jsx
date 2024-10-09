@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart,removeFromCart } from "../Redux/features/cartReducers";
+import { Link } from 'react-router-dom';
 // import PopUpBtn from "../utils/features";
 
 const HomePage = () => {
@@ -37,7 +38,7 @@ const HomePage = () => {
                     <div className="px-4 py-6 sm:px-0">
                         <div className="border-4 border-dashed border-gray-200 rounded-lg h-auto p-5">
                             <h2 className="text-2xl font-semibold w-max mx-auto text-gray-700">
-                                Welcome to our store!
+                                Welcome to our store! hek_
                             </h2>
                             <p className="mt-4 text-gray-600 w-max mx-auto my-12">
                                 Browse our collection of amazing products.
@@ -75,10 +76,10 @@ const HomePage = () => {
                                                         style={{ gridTemplateRows: "20% 40% 40%" }}
                                                         className="grid"
                                                     >
-                                                        <p className="title font-extrabold rounded-md mb-2 overflow-auto overflow-ellipsis">
+                                                        <p className="title font-extrabold rounded-md mb-2 overflow-hidden w-full">
                                                             {product.title}
                                                         </p>
-                                                        <p className="ml-0 mr-0 font-semibold w-full rounded-md mb-2 overflow-ellipsis overflow-auto">
+                                                        <p className="des ml-0 mr-0 font-semibold rounded-md mb-2">
                                                             Description : {product.description}
                                                         </p>
                                                         <div>
@@ -89,7 +90,7 @@ const HomePage = () => {
                                                                 Add to Cart
                                                             </button>
                                                             <button className='m-1'>
-                                                                <a href={`/products/${product.id}`} className="p-2 bg-rose-400 font-medium w-max text-black rounded-md mb-2 inline-block">View Details</a>
+                                                                <Link to={`/products/${product.id}`} className="p-2 bg-rose-400 font-medium w-max text-black rounded-md mb-2 inline-block">View Details</Link>
                                                             </button>
                                                             {/* <p className='p-2  m-1 w-max mb-2 inline-block bg-emerald-950 hover:bg-emerald-900 text-white font-bold rounded-md'>
                                                                 {product.quantity}

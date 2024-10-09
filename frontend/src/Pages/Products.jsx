@@ -37,7 +37,7 @@ const ProductPage = () => {
                 <div className="flex space-x-4">
                   {isInCart ? (
                     <button
-                      onClick={() => dispatch(removeFromCart(productId))}
+                      onClick={() => dispatch(removeFromCart(product.id))}
                       className="p-2 bg-red-500 hover:bg-red-700 text-white font-bold rounded-md"
                     >
                       Remove from Cart

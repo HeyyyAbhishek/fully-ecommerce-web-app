@@ -1,41 +1,32 @@
-import { DataTypes } from "sequelize";
-import { sequelizeUsers } from "../database/db.js";
+const mongoose = require('mongoose');
 
-class UserModel{}
 
-UserModel.init(
-	{
-		id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true,
-		},
-		username: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		email: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		password: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		salt: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		role: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
+const userSchema = new mongoose.Schema({
+	name: {
+		type: String,
+		required: true,
+		trim: true
 	},
-	{
-		sequelize: sequelizeUsers,
-		modelName: "users",
+	email: {
+		type: String,
+		required: true,
+		unique: true,
+		trim: true,
+		lowercase: true
 	},
-);
+	password: {
+		type: String,
+		required: true,
+		minlength: 7
+	},
+	tokens: [{
+		token: {
+			type: String,
+			required: true
+		}
+	}]
+}, {
+	timestamps: true
+});
 
-export default UserModel;
+module.exports = mongoose.model('User', userSchema);
