@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import cartReducer from "../features/cartReducers.js"
-import productDataSlice from "../data/FakeData.js"
+import productReducer from "../data/FakeData.js"
+import { login } from '../features/loginReducers.js'
 
 
 export default configureStore({
   reducer: {
     cart:cartReducer,
-    productData:productDataSlice,
+    productData:productReducer,
+    login:login,
   },
 })

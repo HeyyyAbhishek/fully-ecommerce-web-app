@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import { signIn } from '../redux/actions/authActions';
+// import { login } from '../../../backend/controllers/authController';
+;
 
 const Signin = () => {
     const [email, setEmail] = useState('');
@@ -9,7 +10,7 @@ const Signin = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(signIn({ email, password }));
+        dispatch(login({ email, password }));
     };
 
     return (

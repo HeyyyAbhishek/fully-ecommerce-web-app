@@ -1,73 +1,66 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import morgan from "morgan";
-import dotenv from "dotenv";
-import auth from "./auth/auth.js";
-import cors from "cors";
-import productRoutes from "./routes/productRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import orderRoutes from "./routes/orderRoutes.js";
+"use strict";
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+require("dotenv").config();
+const express = require("express");
+const morgan = require("morgan");
+const cors = require("cors");
 
-dotenv.config();
-const config = process.env;
-
-const PORT = 4040;
 const app = express();
+const PORT = process.env.PORT | 4000;
+app.use(morgan("tiny"));
 
-app.use(morgan("dev"));
-app.use(cookieParser(config.TOKEN));
+
+
 
 const corsOptions = {
-	// Add your address here i.e. your forwarded address from a cloud environment
-	origin: [
-		"http://127.0.0.1:5173",
-		"http://127.0.0.1:4173",
-		"http://localhost:5173",
-		"http://localhost:4173",
-		"http://[::1]:4173",
-		"http://[::1]:5173",
-	],
-	credentials: true, //included credentials as true
-	preflightContinue: true,
+  origin: true,
+  credentials: true, //included credentials as true
+  preflightContinue: true,
 };
-
 app.use(cors(corsOptions));
 
-app.use((req, res, next) => {
-	res.header(
-		"Access-Control-Allow-Methods",
-		"GET, POST, OPTIONS, PUT, PATCH, DELETE",
-	);
-	res.header(
-		"Access-Control-Allow-Headers",
-		"Access-Control-Allow-Origin, X-Requested-With,content-type,Content-Type, Authorization,Authentication,withCredentials, Content-Length, X-Requested-With, Accept, x-access-token,credentials, Origin, X-Content-Type-Options",
-	);
-	res.header(
-		"Access-Control-Expose-Headers",
-		"x-access-token, Authorization, Authentication, withCredentials, credentials, Set-Cookie",
-	);
-	res.header("Access-Control-Allow-Credentials", true);
+app.use(cookieParser(process.env.TOKEN_KEY));
 
-	// You might want to hard-code this if necessary.
-	const origin = req.get("origin") || req.get("referer");
-	res.header("Access-Control-Allow-Origin", origin);
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+app.use(bodyParser.json());
 
-	next();
+app.use(function (req, res, next) {
+  // res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type,Content-Type, Authorization,Authentication,withCredentials, Content-Length, X-Requested-With, Accept, x-access-token,credentials, Origin, X-Content-Type-Options"
+  );
+  res.header(
+    "Access-Control-Expose-Headers",
+    "x-access-token, Authorization, Authentication, withCredentials, credentials, Set-Cookie"
+  );
+  res.header("Access-Control-Allow-Credentials", true);
+  next();
 });
 
-app.use(express.json());
+// App Routes
+app.use("/auth", require("./routes/authHandling"));
+app.use("/admin", require("./routes/adminHandling"));
+app.use("/products", require("./routes/productHandling"));
+app.use("/",(req,res)=> res.send("Welcome to the E-commerce API"));
+app.use("*", (req, res) => {
+  res.status(404).send({
+    ok: false,
+    status: 404,
+    message: "Resource not found",
+  });
+})
 
-// Set Cors Options before other routes for all possible routes, enabling preflight across the board
-app.options("*", cors(corsOptions));
-
-app.use("/api/products", productRoutes);
-app.use("/api/users",auth, userRoutes);
-app.use("/api/orders", orderRoutes);
-
-try {
-	app.listen(PORT, () =>
-		console.log(`Connected and listening on port ${PORT}.`),
-	);
-} catch (err) {
-	console.log(`Failed to start the server,error: ${err}`);
-}
+// Start the server
+app.listen(PORT, () => {
+  console.info(`Server is running on port ${PORT}`);
+});

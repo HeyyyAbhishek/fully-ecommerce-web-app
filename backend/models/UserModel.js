@@ -1,32 +1,61 @@
-const mongoose = require('mongoose');
+const { DataTypes, Model } = require("sequelize");
+const { sequelize } = require("../service/database/db");
 
+class UserModel extends Model { }
+UserModel.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        username: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        contact_number: {
+            type: DataTypes.INTEGER,
+            allowNull:false,
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull:false,
+        },
+        account_type: {
+            type: DataTypes.STRING,
+            allowNull:false,
+            defaultValue: "user",
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull:false,
+        },
+        salt: {
+            type: DataTypes.STRING,
+            allowNull:false,
+        },
+        createdAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+        isSeller:{
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        }
+    },
+    {
+        // Other model options go here
+        sequelize, // We need to pass the connection instance
+        modelName: "users", // We need to choose the model name
+    },
+);
 
-const userSchema = new mongoose.Schema({
-	name: {
-		type: String,
-		required: true,
-		trim: true
-	},
-	email: {
-		type: String,
-		required: true,
-		unique: true,
-		trim: true,
-		lowercase: true
-	},
-	password: {
-		type: String,
-		required: true,
-		minlength: 7
-	},
-	tokens: [{
-		token: {
-			type: String,
-			required: true
-		}
-	}]
-}, {
-	timestamps: true
-});
-
-module.exports = mongoose.model('User', userSchema);
+module.exports = UserModel;

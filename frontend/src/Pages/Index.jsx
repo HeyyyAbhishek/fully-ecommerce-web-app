@@ -1,21 +1,19 @@
-import {useState} from 'react';
+import {useEffect} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart,removeFromCart } from "../Redux/features/cartReducers";
 import { Link } from 'react-router-dom';
+import {fetchProductData } from '../Redux/data/FakeData';
 // import PopUpBtn from "../utils/features";
 
 const HomePage = () => {
-        useDispatch(addToCart(JSON.parse(localStorage.getItem("cart"))));
-    
-
-    const products = useSelector((state) => {
-        return state.productData;
-    });
-
-
-    const categories = [...new Set(products.map((product) => product.category))];
+    useDispatch(addToCart(JSON.parse(localStorage.getItem("cart"))));
     const dispatch = useDispatch();
-    const [showPopup, setShowPopup] = useState(false);
+    const products = useSelector((state) => state.productData);
+
+    useEffect(() => {
+        dispatch(fetchProductData());
+    }, [dispatch]);
+    const categories = [...new Set(products.map((product) => product.category))];
 
 
     const handleAddToCart = (product, target) => {
@@ -26,9 +24,7 @@ const HomePage = () => {
         dispatch(addToCart(updatedProduct));
         target.innerText = "Added";
         localStorage.setItem("cart", JSON.stringify(updatedProduct));
-        
-        setShowPopup(true); // Show popup when an item is added
-        setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
+
     };
 
     return (
