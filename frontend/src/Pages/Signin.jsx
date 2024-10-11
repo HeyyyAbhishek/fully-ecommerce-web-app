@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-// import { login } from '../../../backend/controllers/authController';
-;
+import { login } from '../Redux/features/loginReducers';
 
 const Signin = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const dispatch = useDispatch();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(login({ email, password }));
+        setError('');
+        try {
+            await dispatch(login({ email, password }));
+            console.log('Login successful');
+            navigate('/');
+            // Redirect or perform any other action on success
+        } catch (err) {
+            console.error('Login failed', err);
+            setError('Login failed. Please check your credentials and try again.');
+        }
     };
 
     return (
@@ -52,6 +63,7 @@ const Signin = () => {
                             />
                         </div>
                     </div>
+                    {error && <div className="text-red-500 text-sm">{error}</div>}
                     <div>
                         <button
                             type="submit"

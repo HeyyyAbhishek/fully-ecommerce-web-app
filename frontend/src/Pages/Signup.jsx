@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -18,19 +20,33 @@ const Signup = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // Handle form submission logic here
-        fetch('http://localhost:4000/auth/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        console.log(formData);
+        try{
+            let response = await fetch("http://localhost:4000/auth/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+                credentials: "include",
+            });
+            let res = await response.json();
+            console.log("res");
+            if (response.ok || res.ok) {
+                console.log("User created successfully");
+                navigate('/signin');
+            } else {
+                console.log("User creation failed");
+            }
+        }catch(err){
+            console.log(err);
+        }
     };
 
+    // useNavigate('/login');
+    
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">

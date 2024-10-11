@@ -1,29 +1,27 @@
-const { DataTypes, Model } = require("sequelize");
-const { sequelize } = require("../service/database/db");
-const UserModel = require("./UserModel");
+const mongoose = require('mongoose');
+const userModel = require('./userModel');
+const Schema = mongoose.Schema;
 
-class Seller extends UserModel {
-    constructor() {
-        super();
-        this.sellerSpecificField = DataTypes.STRING;
-    }
-}
-
-Seller.init(
-    {
-        listedProducts: {
-            type: DataTypes.ARRAY(DataTypes.INTEGER),
-            allowNull: true,
-        },
-        orderHistory: {
-            type: DataTypes.ARRAY(DataTypes.INTEGER),
-            allowNull: true,
-        },
+const sellerSchema = new Schema({
+    listedProducts: {
+        type: [Number],
+        default: [],
     },
-    {
-        sequelize,
-        modelName: "Seller",
-    }
-);
+    orderHistory: {
+        type: [Number],
+        default: [],
+    },
+    sellerSpecificField: {
+        type: String,
+        default: '',
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required: true,
+    },
+});
 
-module.exports = Seller;
+const seller = mongoose.model('seller', sellerSchema);
+
+module.exports = seller;

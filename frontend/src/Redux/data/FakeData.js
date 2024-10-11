@@ -6,39 +6,38 @@ let initialState = [];
 
 export const fetchProductData = createAsyncThunk(
   "productData/fetchProductData",
-  async (prod, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      let response = await fetch("localhost:4001/products",{
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      let response = await fetch("https://fakestoreapi.com/products");
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
       let data = await response.json();
+      console.log(data);
       return data;
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(err.message);
     }
   }
 );
 
 const productData = createSlice({
   name: "productData",
-  initialState,
-  reducers: {
-  },
+  initialState:initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductData.fulfilled, (state, action) => {
         console.log("Fulfilled");
-        console.log(action.payload);
-        state.push(...action.payload); // Spread to add individual items
+        console.log(state);
+        return action.payload;
+
       })
-      .addCase(fetchProductData.rejected, () => {
+      .addCase(fetchProductData.rejected, (state, action) => {
         console.log("Rejected");
+        console.error(action.payload); // Log the error message
       });
   },
 });
 
-export const { getProductData, } = productData.actions;
 export default productData.reducer;

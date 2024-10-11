@@ -1,61 +1,47 @@
-const { DataTypes, Model } = require("sequelize");
-const { sequelize } = require("../service/database/db");
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-class UserModel extends Model { }
-UserModel.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        contact_number: {
-            type: DataTypes.INTEGER,
-            allowNull:false,
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull:false,
-        },
-        account_type: {
-            type: DataTypes.STRING,
-            allowNull:false,
-            defaultValue: "user",
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull:false,
-        },
-        salt: {
-            type: DataTypes.STRING,
-            allowNull:false,
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW,
-        },
-        isSeller:{
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false,
-        }
+const userSchema = new Schema({
+    username: {
+        type: String,
+        required: true,
     },
-    {
-        // Other model options go here
-        sequelize, // We need to pass the connection instance
-        modelName: "users", // We need to choose the model name
+    contact_number: {
+        type: Number,
+        required: true,
     },
-);
+    email: {
+        type: String,
+        required: true,
+    },
+    account_type: {
+        type: String,
+        required: true,
+        default: "user",
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    salt: {
+        type: String,
+        required: true,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now,
+    },
+    isSeller: {
+        type: Boolean,
+        required: true,
+        default: false,
+    }
+});
 
-module.exports = UserModel;
+const userModel = mongoose.model('user', userSchema);
+
+module.exports = userModel;

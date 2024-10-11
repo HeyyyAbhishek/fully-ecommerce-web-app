@@ -5,18 +5,17 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-
+const { connectDB } = require("./service/database/db");
 const app = express();
-const PORT = process.env.PORT | 4000;
+const PORT = process.env.PORT || 4000;
 app.use(morgan("tiny"));
 
 
 
 
 const corsOptions = {
-  origin: true,
-  credentials: true, //included credentials as true
-  preflightContinue: true,
+  origin: ["http://localhost:5173","http://127.0.0.1:5173"],
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
@@ -29,29 +28,17 @@ app.use(
 );
 app.use(bodyParser.json());
 
-app.use(function (req, res, next) {
-  // res.header("Access-Control-Allow-Origin", req.headers.origin);
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type,Content-Type, Authorization,Authentication,withCredentials, Content-Length, X-Requested-With, Accept, x-access-token,credentials, Origin, X-Content-Type-Options"
-  );
-  res.header(
-    "Access-Control-Expose-Headers",
-    "x-access-token, Authorization, Authentication, withCredentials, credentials, Set-Cookie"
-  );
-  res.header("Access-Control-Allow-Credentials", true);
-  next();
-});
 
+connectDB();
 // App Routes
-app.use("/auth", require("./routes/authHandling"));
-app.use("/admin", require("./routes/adminHandling"));
-app.use("/products", require("./routes/productHandling"));
+console.log("requet made")
+app.use("/admin", require("./routes/adminAction"));
+app.use("/products", require("./routes/productAction"));
+app.use("/seller", require("./routes/sellerAction"));
+app.use("/auth", require("./routes/userAction"));
+
 app.use("/",(req,res)=> res.send("Welcome to the E-commerce API"));
+
 app.use("*", (req, res) => {
   res.status(404).send({
     ok: false,

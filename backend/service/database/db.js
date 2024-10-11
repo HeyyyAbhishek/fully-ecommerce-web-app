@@ -1,22 +1,26 @@
-// Initialise the database connection
-const { Sequelize } = require("sequelize");
+const mongoose = require('mongoose');
+const userModel = require('../../models/userModel');
+const productModel = require('../../models/productModel');
+const sellerModel = require('../../models/sellerModel');
 
-const sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./service/database/db.sqlite",
-    logging: false,
-});
-
-sequelize.authenticate().then(async () => {
-  await sequelize.sync({alter:true}).then(() => {
-    console.log("Database synchronized");
-  })
-  console.log("Connection has been established successfully");
-})
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
+const connectDB = async () => {
+    const opt ={
+        dbName: 'ecommerce'
+    }
+    try {
+        await mongoose.connect('mongodb://localhost:27017', opt);
+        console.log('MongoDB connected successfully');
+    } catch (error) {
+        console.error('MongoDB connection failed:', error.message);
+        process.exit(1);
+    }
+};
 
 module.exports = {
-  sequelize,
+    connectDB,
+    models: {
+        User: userModel,
+        Product: productModel,
+        Seller: sellerModel,
+    },
 };

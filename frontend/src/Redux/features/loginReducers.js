@@ -11,7 +11,8 @@ export const login = createAsyncThunk(
     "loginSlice/login",
     async (data, { rejectWithValue }) => {
         try {
-            let response = await fetch("http://localhost:4000/login", {
+            console.log("under login func",data);
+            let response = await fetch("http://localhost:4000/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -20,6 +21,7 @@ export const login = createAsyncThunk(
                 credentials: "include",
             });
             let res = await response.json();
+            console.log(res);
             if (res.ok) {
                 return res;
             } else {
@@ -32,21 +34,22 @@ export const login = createAsyncThunk(
 )
 
 const loginSlice = createSlice({
-    name: "login",
+    name: "loginSlice",
     initialState: initialState,
     reducers: {
     },
     extraReducers: (builder) => {
         builder
-            .addCase(Login.fulfilled, (state, action) => {
+            .addCase(login.fulfilled, (state, action) => {
                 state.login = true;
+                console.log("login", action.payload);
                 state.user = action.payload;
             })
-            .addCase(Login.rejected, (state, action) => {
+            .addCase(login.rejected, (state, action) => {
                 state.error = action.payload.message;
             });
     },
 });
 
-// export const { logout } = loginSlice.actions;
+export const { logout } = loginSlice.actions;
 export default loginSlice.reducer;

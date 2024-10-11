@@ -1,43 +1,39 @@
-const { DataTypes, Model } = require("sequelize");
-const { sequelize } = require("../service/database/db");
-
-class ProductModel extends Model { }
-
-ProductModel.init({
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-    },
-    title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    price: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-    },
-    description: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-    },
-    category: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    image: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    rating: {
-        type: DataTypes.JSON,
-        allowNull: false,
-    },
+const mongoose = require('mongoose');
+const productSchema = new mongoose.Schema({
+	id:{
+		type: Number,
+		required: true,
+		unique: true,
+	},
+	title: {
+		type: String,
+		required: true,
+	},
+	price: {
+		type: Number,
+		required: true,
+	},
+	description: {
+		type: String,
+		required: true,
+	},
+	category: {
+		type: String,
+		required: true,
+	},
+	image: {
+		type: String,
+		required: true,
+	},
+	rating: {
+		type: Object,
+		required: true,
+	},
 }, {
-    sequelize,
-    modelName: 'Product',
-    tableName: 'products',
-    timestamps: false,
+	collection: 'products',
+	timestamps: false,
 });
 
-module.exports = ProductModel;
+const productModel = mongoose.model('product', productSchema);
+
+module.exports = productModel;

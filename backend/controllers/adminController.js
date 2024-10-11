@@ -1,8 +1,8 @@
-const UserModel = require("../models/UserModel")
+const userModel = require("../models/userModel")
 
 const load_platform_users = async (req, res) => {
     try {
-        let users = await UserModel.findAll({
+        let users = await userModel.findAll({
             attributes: { exclude: ['password', 'salt'] }
         }).then((users) => users.map((user) => user.dataValues))
 
@@ -27,7 +27,7 @@ const update_user_profile = async (req, res) => {
         let user_id = req.params.user_id
         let { username, email, contact_number, account_type } = req.body
 
-        let user = await UserModel.findOne({ where: { id: user_id } })
+        let user = await userModel.findOne({ where: { id: user_id } })
 
         if (!user) {
             return res.status(400).send({
@@ -37,7 +37,7 @@ const update_user_profile = async (req, res) => {
             })
         }
 
-        let update = await UserModel.update({
+        let update = await userModel.update({
             username: username,
             email: email,
             contact_number: contact_number,
@@ -75,7 +75,7 @@ const delete_user_profile = async (req, res) => {
     try {
         let user_id = req.params.user_id || req.body.username
 
-        let user = await UserModel.findOne({ where: { id: user_id } })
+        let user = await userModel.findOne({ where: { id: user_id } })
 
         if (!user) {
             return res.status(400).send({
@@ -85,7 +85,7 @@ const delete_user_profile = async (req, res) => {
             })
         }
 
-        let deleted = await UserModel.destroy({
+        let deleted = await userModel.destroy({
             where: { id: user_id }
         })
 
@@ -117,7 +117,7 @@ const load_user_profile_by_id = async (req, res) => {
     try {
         let { user_id } = req.params
 
-        let user = await UserModel.findOne({
+        let user = await userModel.findOne({
             where: { id: user_id },
             attributes: { exclude: ['password', 'salt'] }
         })
