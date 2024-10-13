@@ -3,17 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 // import { logoutUser } from '../redux/actions/authActions';
 import { useState,useEffect } from 'react';
+import { getInfoFromCookie } from '../Redux/features/loginReducers';
 import "./Header.css"
 
 const Header = () => {
-    // const dispatch = useDispatch();
-    // const auth = useSelector(state => state.auth);
     const cart = useSelector(state => state.cart);
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    console.log(isAuthenticated);
 
-    // const handleLogout = () => {
-    //     dispatch(logoutUser());
-    // };
-    
     const [isHeaderHidden, setIsHeaderHidden] = useState(false);
     const [lastScrollY, setLastScrollY] = useState(0);
   
@@ -73,6 +70,7 @@ const Header = () => {
                             Sign In
                         </NavLink>
                     </li>
+                    {}
                 </ul>
             </nav>
         </header>

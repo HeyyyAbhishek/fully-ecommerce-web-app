@@ -8,6 +8,6 @@ export default configureStore({
   reducer: {
     cart:cartReducer,
     productData:productReducer,
-    loginSlc:loginReducer,
+    auth:loginReducer,
   },
 })

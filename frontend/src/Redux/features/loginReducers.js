@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
-
-const initialState = {
+const initialState ={
+    isAuthenticated: false,
     login: false,
     user: {},
     error: "",
-};
+}
 
 export const login = createAsyncThunk(
     "loginSlice/login",
@@ -37,6 +38,26 @@ const loginSlice = createSlice({
     name: "loginSlice",
     initialState: initialState,
     reducers: {
+        logout: (state) => {
+            state.isAuthenticated = false;
+            state.login = false;
+            state.user = {};
+        },
+        getInfoFromCookie: (state) => {
+            let user = Cookies.get("userFrontend");
+            user = JSON.parse(user);
+            console.log(user) 
+            if(user){
+                console.log("getInfoFromCookie condtion called ")
+                state.isAuthenticated = user.isAuthenticated;
+                state.login = user.login;
+                state.user = user.user;
+            }else{
+                state.isAuthenticated = false;
+                state.login = false;
+                state.user = {};
+            }
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -44,6 +65,9 @@ const loginSlice = createSlice({
                 state.login = true;
                 console.log("login", action.payload);
                 state.user = action.payload;
+                state.isAuthenticated = true;
+                state.login = true
+                Cookies.set("userFrontend", JSON.stringify(state));
             })
             .addCase(login.rejected, (state, action) => {
                 state.error = action.payload.message;
@@ -51,5 +75,5 @@ const loginSlice = createSlice({
     },
 });
 
-export const { logout } = loginSlice.actions;
+export const { logout ,getInfoFromCookie} = loginSlice.actions;
 export default loginSlice.reducer;

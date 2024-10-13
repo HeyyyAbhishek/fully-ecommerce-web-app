@@ -3,12 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart,removeFromCart } from "../Redux/features/cartReducers";
 import { Link } from 'react-router-dom';
 import {fetchProductData } from '../Redux/data/FakeData';
+import { getInfoFromCookie } from '../Redux/features/loginReducers';
 // import PopUpBtn from "../utils/features";
 
 const HomePage = () => {
-    useDispatch(addToCart(JSON.parse(localStorage.getItem("cart"))));
     const dispatch = useDispatch();
     const products = useSelector((state) => state.productData);
+    useEffect(()=>{
+        dispatch(getInfoFromCookie());
+      },[])
 
     useEffect(() => {
         dispatch(fetchProductData());
