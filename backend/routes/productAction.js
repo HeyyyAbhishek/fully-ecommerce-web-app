@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const productController = require("../controllers/productController");
+const  authentication= require("../service/security/authentication");
+const  authorisation  = require("../service/security/authorisation");
 
 router.get("/", productController.getAllProducts);
 router.get("/:id"), productController.getProductById;
-//router.get("/purchase",authentication, authorisation("user"), productController.purchaseProduct);
+router.post("/purchase", productController.purchaseProduct);
 
 module.exports = router;

@@ -39,7 +39,15 @@ const userSchema = new Schema({
         type: Boolean,
         required: true,
         default: false,
-    }
+    },
+    orderHistory:{
+        type: Array,
+        default: [],
+    },
+    purchaseHistory:{
+        type: Array,
+        default: [],
+    },
 });
 
 const userModel = mongoose.model('user', userSchema);

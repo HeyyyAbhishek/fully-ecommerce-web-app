@@ -7,7 +7,8 @@ import Signup from "./Pages/Signup.jsx";
 import Signin from "./Pages/Signin.jsx";
 import Product from "./Pages/Products.jsx";
 import Cart from "./Pages/Cart.jsx";
-
+import Checkout from "./Pages/payment.jsx";
+import Profile from "./Pages/Profile.jsx";
 
 
 
@@ -21,7 +22,8 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
-
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </>
   );
