@@ -29,13 +29,13 @@ const login = async (req, res) => {
         .status(400)
         .json({ message: "Invalid Credentials", ok: false });
     }
-
     // Create JWT token
     const payload = {
       user: {
         id: user._id,
         email: user.email,
         account_type: user.account_type,
+
       },
     };
 
@@ -59,12 +59,15 @@ const login = async (req, res) => {
         maxAge: 60 * 60 * 24 * 1000,
       }
     );
+
+    user.password = null
+    user.salt = null
+    // Create JWT token
+
     return res.status(200).json({
       ok: true,
       message: "Login Successful",
-      is_admin: user.account_type === "admin" ? true : false,
-      username: user.username,
-      email: user.email,
+      user:user
     });
   } catch (error) {
     console.log(error);
@@ -122,111 +125,17 @@ const register = async (req, res) => {
   }
 };
 
-const load_user_profile = async (req, res) => {
+const verifyLogin = async (req, res) => {
   try {
-    let user_id = await get_user_id(req); // Get user id from JWT token by the helper function
-
-    if (!user_id) {
-      return res.status(400).json({ message: "Invalid Request", ok: false });
-    }
-
-    let user = await User.findById(user_id).select("-password -salt");
-
+    const user = req.user;
     if (!user) {
-      return res.status(400).json({ message: "User not found", ok: false });
+      return res.status(400).json({ message: "Invalid Request" });
     }
-
-    return res.status(200).json({ payload: user, ok: true });
+    console.log("user in verifyLogin")
+    return res.status(200).json({ user: user , ok: true ,isAuthenticated:true,message:"User is authenticated"});
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Server Error" });
-  }
-};
-
-const update_user_profile = async (req, res) => {
-  try {
-    let user_id = await get_user_id(req); // Get user id from JWT token by the helper function
-
-    if (!user_id) {
-      return res.status(400).json({ message: "Invalid Request", ok: false });
-    }
-
-    let user = await User.findById(user_id);
-
-    if (!user) {
-      return res.status(400).json({ message: "User not found", ok: false });
-    }
-
-    let { username, email, contact_number } = req.body;
-
-    if (username) {
-      user.username = username;
-    }
-
-    if (email) {
-      user.email = email;
-    }
-
-    if (contact_number) {
-      user.contact_number = contact_number;
-    }
-
-    await user.save();
-
-    return res.status(200).json({ message: "User Updated", ok: true });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Server Error", ok: false });
-  }
-};
-
-const all_user_profile = async (req, res) => {
-  try {
-    let users = await User.find().select("-password -salt");
-
-    return res.status(200).json({ payload: users, ok: true });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Server Error", ok: false });
-  }
-};
-
-const delete_user_profile = async (req, res) => {
-  try {
-    let username = req.body.username;
-    console.log(`username is: ${username}`);
-    let user = await User.findOne({ username: username });
-
-    if (!user) {
-      return res.status(400).send({
-        ok: false,
-        status: 400,
-        message: "User not found",
-      });
-    }
-
-    if (user.account_type === "admin") {
-      return res.status(400).send({
-        ok: false,
-        status: 400,
-        message: "You do not have permission to DELETE Admin",
-      });
-    }
-
-    await User.deleteOne({ username: username });
-
-    return res.status(200).send({
-      ok: true,
-      status: 200,
-      message: "User deleted",
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send({
-      ok: false,
-      status: 500,
-      message: "Internal Server Error",
-    });
   }
 };
 
@@ -234,8 +143,5 @@ module.exports = {
   login,
   logout,
   register,
-  load_user_profile,
-  update_user_profile,
-  all_user_profile,
-  delete_user_profile,
+  verifyLogin
 };

@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import cartReducer from "../features/cartReducers.js"
 import productReducer from "../data/FakeData.js"
 import  loginReducer  from '../features/loginReducers.js'
+import  userReducer  from '../features/userReducer.js'
 
 
 export default configureStore({
@@ -9,5 +10,6 @@ export default configureStore({
     cart:cartReducer,
     productData:productReducer,
     auth:loginReducer,
+    user:userReducer,
   },
 })

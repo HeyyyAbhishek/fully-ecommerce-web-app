@@ -6,6 +6,6 @@ const  authorisation  = require("../service/security/authorisation");
 
 router.get("/", productController.getAllProducts);
 router.get("/:id"), productController.getProductById;
-router.post("/purchase", productController.purchaseProduct);
+router.post("/purchase",authentication,authorisation("user"), productController.purchaseProduct);
 
 module.exports = router;

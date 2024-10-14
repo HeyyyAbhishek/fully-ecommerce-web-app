@@ -49,6 +49,7 @@ const purchaseProduct = async (req, res) => {
       const userRecord = await userModel.findOne({ email });
       if (!userRecord) {
         return res.status(404).json({
+          auth:true,
           ok: false,
           message: "User not found",
           payload: null,
@@ -65,6 +66,7 @@ const purchaseProduct = async (req, res) => {
         console.log("item",item)
         if (!product) {
           return res.status(400).json({
+            auth:true,
             ok: false,
             message: `Product with ID ${item.id} not found`,
             payload: null,
@@ -72,6 +74,7 @@ const purchaseProduct = async (req, res) => {
         }
         if (product.quantity < item.quantity) {
           return res.status(400).json({
+            auth:true,
             ok: false,
             message: `Insufficient quantity for product ${product.name}`,
             payload: null,
@@ -109,6 +112,7 @@ const purchaseProduct = async (req, res) => {
   
       // Send success response
       return res.status(200).json({
+        auth:true,
         ok: true,
         message: "Products purchased successfully and user history updated",
         payload: null,
