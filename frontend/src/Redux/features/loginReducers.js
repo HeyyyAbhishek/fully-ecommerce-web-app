@@ -131,7 +131,8 @@ const loginSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.login = true;
         state.isAuthenticated = true;
-        state.user = action.payload.user || {}; // Adjust based on your response structure
+        console.log("action",action)
+        state.user = action.payload || {}; // Adjust based on your response structure
         // Store only relevant parts in the cookie
         Cookies.set("userFrontend", JSON.stringify({
           isAuthenticated: state.isAuthenticated,

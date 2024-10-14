@@ -54,13 +54,15 @@ const purchaseProduct = async (req, res) => {
           payload: null,
         });
       }
-  
+  console.log("user is ok ")
       
       const orderHistoryEntries = [];
       let total = 0;
   
       for (const item of items) {
-        const product = await productModel.findById(item.id);
+        let id = item.id
+        const product = await productModel.findOne({id});
+        console.log("item",item)
         if (!product) {
           return res.status(400).json({
             ok: false,
@@ -87,7 +89,7 @@ const purchaseProduct = async (req, res) => {
         
         orderHistoryEntries.push({
           productId: product._id,
-          productName: product.name,
+          productName: product.title,
           quantity: item.quantity,
           price: product.price,
           total: itemTotal,
