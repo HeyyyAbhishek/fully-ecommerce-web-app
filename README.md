@@ -23,7 +23,7 @@ To get started with this project, follow the steps below:
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/ecommerce-web-app.git
+   git clone https://github.com/HeyyyAbhishek/ecommerce-web-app.git
    cd ecommerce-web-app
    ```
 
@@ -70,4 +70,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### Contact
 
-For inquiries or support, please reach out to [your-email@example.com].
+For inquiries or support, please reach out to [x.com/heyyyabhishek].
