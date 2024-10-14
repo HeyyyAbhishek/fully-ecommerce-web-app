@@ -6,6 +6,7 @@
 **Front-end:**
 
 - **React**: A JavaScript library for building user interfaces.
+- **React-Redux**: State Management Library.
 - **ExpressJS**: A web application framework for Node.js to build RESTful APIs.
 - **Mongoose**: An ODM (Object Data Modeling) library for MongoDB and Node.js.
 - **js-cookie**: A simple JavaScript API for handling cookies.
@@ -23,8 +24,8 @@ To get started with this project, follow the steps below:
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/HeyyyAbhishek/ecommerce-web-app.git
-   cd ecommerce-web-app
+   git clone https://github.com/HeyyyAbhishek/fully-ecommerce-web-app.git
+   cd fully-ecommerce-web-app
    ```
 
 2. **Install Dependencies**
