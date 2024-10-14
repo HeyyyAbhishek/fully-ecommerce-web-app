@@ -1,8 +1,73 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# eCommerce Web App - Core X Stackup Dev Challenge
 
-Currently, two official plugins are available:
+### Technologies Used
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Front-end:**
+
+- **React**: A JavaScript library for building user interfaces.
+- **ExpressJS**: A web application framework for Node.js to build RESTful APIs.
+- **Mongoose**: An ODM (Object Data Modeling) library for MongoDB and Node.js.
+- **js-cookie**: A simple JavaScript API for handling cookies.
+- **Vite**: A modern frontend build tool that provides a fast development environment and a highly optimized production build.
+
+**Please see `package.json` for a complete list of dependencies.**
+
+**Official Plugins:**
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md): Uses [Babel](https://babeljs.io/) for Fast Refresh.
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc): Uses [SWC](https://swc.rs/) for Fast Refresh.
+
+### Getting Started
+
+To get started with this project, follow the steps below:
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/yourusername/ecommerce-web-app.git
+   cd ecommerce-web-app
+   ```
+
+2. **Install Dependencies**
+   Ensure you have [Node.js](https://nodejs.org/) installed. Then run the following command to install all required dependencies:
+   ```bash
+   npm install
+   ```
+
+3. **Set Up Environment Variables**
+   Create a `.env` file in the root directory of the project and configure the necessary environment variables. You can use the `.env.example` file as a reference.
+
+4. **Run the Development Server**
+   Start the development server with the following command:
+   ```bash
+   npm run dev
+   ```
+
+5. **Open in Browser**
+   Open your web browser and navigate to `http://localhost:3000` (or the port specified in your configuration) to view the application.
+
+### Features
+
+- User Authentication: Secure login and registration.
+- Product Listings: Browse a variety of products.
+- Shopping Cart: Add, remove, and manage items in the shopping cart.
+- Checkout Process: Complete purchases with ease.
+- Responsive Design: Works on desktop and mobile devices.
+
+### Future Improvements
+
+- Implement user reviews and ratings for products.
+- Enhance the search functionality to include filters.
+- Add payment processing using Stripe or PayPal.
+- Optimize performance and improve SEO.
+
+### Contributing
+
+Contributions are welcome! If you have suggestions for improvements or want to add features, please open an issue or submit a pull request.
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### Contact
+
+For inquiries or support, please reach out to [your-email@example.com].
