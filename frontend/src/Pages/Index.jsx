@@ -4,17 +4,17 @@ import { addToCart,removeFromCart } from "../Redux/features/cartReducers";
 import { Link } from 'react-router-dom';
 import {fetchProductData } from '../Redux/data/FakeData';
 import { getInfoFromCookie } from '../Redux/features/loginReducers';
+import { getDetails } from '../Redux/features/userReducer';
 // import PopUpBtn from "../utils/features";
 
 const HomePage = () => {
     const dispatch = useDispatch();
-    const products = useSelector((state) => state.productData);
-    useEffect(()=>{
-        dispatch(getInfoFromCookie());
-      },[])
+    const products = useSelector((state) => state.productData.products);
 
     useEffect(() => {
         dispatch(fetchProductData());
+        dispatch(getInfoFromCookie());
+        dispatch(getDetails());
     }, [dispatch]);
     const categories = [...new Set(products.map((product) => product.category))];
 

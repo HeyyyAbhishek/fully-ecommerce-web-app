@@ -71,7 +71,32 @@ export const verifyLogin =createAsyncThunk(
     }
   }
 )
-// Async thunk for payment
+
+export const logout  = createAsyncThunk(
+  "auth/logout",async ({ rejectWithValue}) => {
+    try {
+      const response = await fetch("http://localhost:4000/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData);
+      }
+
+      const res = await response.json();
+      console.log("Login response:", res);
+      return res; // Assuming res contains user data
+    } catch (err) {
+      console.error("Login error:", err);
+      return rejectWithValue(err.message || "Login failed");
+    }
+  }
+)
 
 
 // Create the slice
@@ -79,13 +104,6 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout: (state) => {
-      state.isAuthenticated = false;
-      state.login = false;
-      state.user = {};
-      state.error = "";
-      Cookies.remove("userFrontend");
-    },
     getInfoFromCookie: (state) => {
       const userCookie = Cookies.get("userFrontend");
 
@@ -129,12 +147,26 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || action.payload || "Login failed";
+      })
+      .addCase(logout.pending, (state) => {
+        state.error = "";
+        state.loading = true;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.loading = false;
+        state.login = false;
+        state.isAuthenticated = false;
+        state.user = {};
+        Cookies.remove("userFrontend");
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || action.payload || "Logout failed";
       });
-
     // Handle payment action
   },
 });
 
 // Export actions and reducer
-export const { logout, getInfoFromCookie } = authSlice.actions;
+export const { getInfoFromCookie } = authSlice.actions;
 export default authSlice.reducer;

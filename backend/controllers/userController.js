@@ -139,9 +139,26 @@ const verifyLogin = async (req, res) => {
   }
 };
 
+const getDetails = async (req, res) => {
+  try {
+    const user = req.signedCookies.user;
+    const {email,username,id,token,account_type} = user;
+    if (!user) {
+      return res.status(400).json({ message: "Invalid Request" });
+    }
+    const getUser = await User.findOne({email:email}).select("-password -salt");
+    console.log(email,username,id,token,account_type);
+    return res.status(200).json({ user: getUser , ok: true ,isAuthenticated:true,message:"User is authenticated"});
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server Error" });
+  }
+};
+
 module.exports = {
   login,
   logout,
   register,
-  verifyLogin
+  verifyLogin,
+  getDetails
 };

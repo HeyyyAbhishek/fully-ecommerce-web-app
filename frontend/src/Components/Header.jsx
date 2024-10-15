@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-// import { logoutUser } from '../redux/actions/authActions';
 import { useState, useEffect } from "react";
 import { logout } from "../Redux/features/loginReducers";
 import "./Header.css";
@@ -73,6 +72,7 @@ const Header = () => {
             <li
               style={{ fontSize: "1rem" }}
               onClick={() => {
+                console.log("Logging out");
                 dispatch(logout());
               }}
               className="bg-red-500 cursor-pointer text-white  p-3 rounded-xl"

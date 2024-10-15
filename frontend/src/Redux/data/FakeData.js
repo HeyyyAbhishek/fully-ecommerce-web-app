@@ -2,13 +2,18 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-let initialState = [];
+let initialState = {
+  products: [],
+  loading: false,
+  error: "",
+}
+
 
 export const fetchProductData = createAsyncThunk(
   "productData/fetchProductData",
   async (_, { rejectWithValue }) => {
     try {
-      let response = await fetch("https://fakestoreapi.com/products");
+      let response = await fetch("http://localhost:4000/products");
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -27,7 +32,8 @@ const productData = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductData.fulfilled, (state, action) => {
-        return action.payload;
+        console.log("Fulfilled",action.payload);
+        state.products = action.payload.payload;
 
       })
       .addCase(fetchProductData.rejected, (state, action) => {
