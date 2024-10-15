@@ -36,7 +36,8 @@ export const loadSellerProfile = createAsyncThunk(
 export const addProduct = createAsyncThunk(
     "seller/addProduct",
     async (product) => {
-        const response = await fetch("/api/seller/addProduct", {
+        console.log("addProduct", product);
+        const response = await fetch("http://localhost:4000/seller/createProduct", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -51,6 +52,26 @@ export const addProduct = createAsyncThunk(
     }
 )
 
+export const updateProduct = createAsyncThunk(
+    "seller/updateProduct",
+    async (product) => {
+        console.log("updateProduct", product);
+        const response = await fetch("http://localhost:4000/seller/updateProduct", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(product),
+            credentials: "include",
+        });
+        if (response.ok) {
+            const seller = await response.json();
+            return seller;
+        }
+    }
+)
+
+
 const sellerSlice = createSlice({
     name: "seller",
     initialState: initialState,
@@ -62,11 +83,20 @@ const sellerSlice = createSlice({
         [loadSellerProfile.rejected]: (state, action) => {
             state.error = action.error.message;
         },
-        [updateSellerProfile.fulfilled]: (state, action) => {
+        [addProduct.fulfilled]: (state, action) => {
             state.seller = action.payload;
         },
-        [updateSellerProfile.rejected]: (state, action) => {
+        [addProduct.rejected]: (state, action) => {
             state.error = action.error.message;
         },
+        [updateProduct.fulfilled]: (state, action) => {
+            state.seller = action.payload;
+        },
+        [updateProduct.rejected]: (state, action) => {
+            state.error = action.error.message;
+        }
     }
 });
+
+export const { } = sellerSlice.actions;
+export default sellerSlice.reducer;

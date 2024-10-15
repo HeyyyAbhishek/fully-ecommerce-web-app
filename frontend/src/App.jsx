@@ -9,7 +9,9 @@ import Product from "./Pages/Products.jsx";
 import Cart from "./Pages/Cart.jsx";
 import Payment from "./Pages/payment.jsx";
 import Profile from "./Pages/Profile.jsx";
-
+import Seller from "./Pages/Seller.jsx";
+import ManageProduct from "./Pages/seller/manageProduct.jsx";
+import AddProduct from "./Pages/seller/addProduct.jsx";
 
 
 function App() {
@@ -24,6 +26,9 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/checkout" element={<Payment />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/seller" element={<Seller />} />
+        <Route path="/seller/manageproduct" element={< ManageProduct />} />
+        <Route path="/seller/manageproduct/addProduct" element={< AddProduct />} />
       </Routes>
     </>
   );

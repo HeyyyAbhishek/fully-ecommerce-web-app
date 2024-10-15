@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addProduct } from '../../redux/actions/productActions';
+import { addProduct } from '../../Redux/features/sellerReducer';
 
 const AddProduct = () => {
     const [productName, setProductName] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [productDescription, setProductDescription] = useState('');
+    const [category, setCategory] = useState('');
+    const [Img, setImg] = useState('');
+    const [Id, setId] = useState('');
     const dispatch = useDispatch();
 
     const handleAddProduct = () => {
         const product = {
-            name: productName,
+            id: Id,
+            title: productName,
             price: productPrice,
             description: productDescription,
+            category: category,
+            image: Img,
+            
         };
         dispatch(addProduct(product));
     };
@@ -21,6 +28,16 @@ const AddProduct = () => {
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">Add New Product</h2>
+                <div className="mb-4">
+                    <label className="block text-gray-700">Id</label>
+                    <input
+                        type="text"
+                        placeholder='Please try higher number if got error'
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        value={Id}
+                        onChange={(e) => setId(e.target.value)}
+                    />
+                </div>
                 <div className="mb-4">
                     <label className="block text-gray-700">Product Name</label>
                     <input
@@ -45,6 +62,24 @@ const AddProduct = () => {
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                         value={productDescription}
                         onChange={(e) => setProductDescription(e.target.value)}
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700">Category</label>
+                    <input
+                        type="text"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700">Image URL</label>
+                    <input
+                        type="text"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        value={Img}
+                        onChange={(e) => setImg(e.target.value)}
                     />
                 </div>
                 <button

@@ -8,7 +8,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
+  const isSeller = useSelector((state) => state.user.user.isSeller);
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -86,14 +86,21 @@ const Header = () => {
             style={{ fontSize: "1rem" }}
                 className="bg-green-500 p-3 rounded-xl"
               >
-                <NavLink
+                {isSeller ?                 <NavLink
+                  to="/seller"
+                  className={({ isActive }) =>
+                    isActive ? "text-white" : "text-black hover:text-white"
+                  }
+                >
+                  Dashboard
+                </NavLink>:                 <NavLink
                   to="/profile"
                   className={({ isActive }) =>
                     isActive ? "text-white" : "text-black hover:text-white"
                   }
                 >
                   Profile
-                </NavLink>
+                </NavLink>}
             </li></>
           ) : (
             <>

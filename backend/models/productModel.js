@@ -27,7 +27,6 @@ const productSchema = new mongoose.Schema({
 	},
 	rating: {
 		type: Object,
-		required: true,
 	},
 }, {
 	collection: 'products',
