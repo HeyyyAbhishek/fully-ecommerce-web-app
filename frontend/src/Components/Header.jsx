@@ -12,6 +12,10 @@ const Header = () => {
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  const out = () => {
+    dispatch(logout());
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       // Check if we're scrolling down or up
@@ -72,8 +76,7 @@ const Header = () => {
             <li
               style={{ fontSize: "1rem" }}
               onClick={() => {
-                console.log("Logging out");
-                dispatch(logout());
+                out();
               }}
               className="bg-red-500 cursor-pointer text-white  p-3 rounded-xl"
             >

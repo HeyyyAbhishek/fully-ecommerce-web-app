@@ -29,22 +29,41 @@ To get started with this project, follow the steps below:
    ```
 
 2. **Install Dependencies**
-   Ensure you have [Node.js](https://nodejs.org/) installed. Then run the following command to install all required dependencies:
+   Ensure you have [Node.js](https://nodejs.org/) installed. Then run the following command to install all required dependencies for frontend:
    ```bash
+   cd frontend
+   npm install
+   ```
+   
+2. **Install Dependencies**
+   Ensure you have [Node.js](https://nodejs.org/) installed. Then run the following command to install all required dependencies for backend:
+   ```bash
+   cd backend
    npm install
    ```
 
 3. **Set Up Environment Variables**
-   Create a `.env` file in the root directory of the project and configure the necessary environment variables. You can use the `.env.example` file as a reference.
+   Create a `.env` file in :
+      ```bash
+   cd frontend
+   ```
+     inside it  Create a `Token`
+   ```bash
+    TOKEN_KEY="Your Token Here"
+   ``` 
 
-4. **Run the Development Server**
-   Start the development server with the following command:
+5. **Run the Development Server**
+   Start the Frontend server with the following command in the `Frontend Directory` :
    ```bash
    npm run dev
    ```
+   Start the Backend server with the following command in the `Backend Directory` :
+   ```bash
+   node app.js
+   ```
 
-5. **Open in Browser**
-   Open your web browser and navigate to `http://localhost:3000` (or the port specified in your configuration) to view the application.
+6. **Open in Browser**
+   Open your web browser and navigate to `http://localhost:5173` (or the port specified in your configuration) to view the application.
 
 ### Features
 
@@ -71,4 +90,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### Contact
 
-For inquiries or support, please reach out to [x.com/heyyyabhishek].
+For inquiries or support, please reach out to [[heyyyabhishek](https://x.com/heyyyabhishek)].

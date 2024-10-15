@@ -73,16 +73,17 @@ export const verifyLogin =createAsyncThunk(
 )
 
 export const logout  = createAsyncThunk(
-  "auth/logout",async ({ rejectWithValue}) => {
+  "auth/logout",async (_,{ rejectWithValue}) => {
     try {
-      const response = await fetch("http://localhost:4000/auth/logout", {
+      const response = await fetch("http://localhost:4000/auth/logout",
+      {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
-      });
-
+        credentials: "include",}
+      );
+      
       if (!response.ok) {
         const errorData = await response.json();
         return rejectWithValue(errorData);
