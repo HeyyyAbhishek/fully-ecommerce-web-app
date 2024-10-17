@@ -5,10 +5,14 @@ const config = process.env;
 const authorisation = (role) => {
     return (req, res, next) => {
         let user = req.signedCookies;
+        const {id,username,email,isSeller} = user?.user;
         const xAccessToken = user?.user?.token;
         if (xAccessToken) {
             const decoded = jwt.verify(xAccessToken, config.TOKEN_KEY);
             user = decoded.user.account_type;
+            if(isSeller === true){
+                user = "seller";
+            }
             if (convertToRole(user) >= convertToRole(role)) {
                 return next();
             }

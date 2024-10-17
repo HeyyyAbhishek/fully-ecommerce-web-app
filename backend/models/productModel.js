@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const schema = mongoose.Schema;
 const productSchema = new mongoose.Schema({
 	id:{
 		type: Number,
@@ -27,6 +28,10 @@ const productSchema = new mongoose.Schema({
 	},
 	rating: {
 		type: Object,
+	},
+	seller: {
+		type: schema.Types.ObjectId,
+		required: true,
 	},
 }, {
 	collection: 'products',

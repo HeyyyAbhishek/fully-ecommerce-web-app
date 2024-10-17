@@ -3,11 +3,11 @@ import { useDispatch } from 'react-redux';
 import { addProduct } from '../../Redux/features/sellerReducer';
 
 const AddProduct = () => {
-    const [productName, setProductName] = useState('');
-    const [productPrice, setProductPrice] = useState('');
-    const [productDescription, setProductDescription] = useState('');
-    const [category, setCategory] = useState('');
-    const [Img, setImg] = useState('');
+    const [productName, setProductName] = useState('Ana de armas');
+    const [productPrice, setProductPrice] = useState('564');
+    const [productDescription, setProductDescription] = useState('asdfsadfs');
+    const [category, setCategory] = useState('Sexy');
+    const [Img, setImg] = useState('https://i2.wp.com/images-cdn.9gag.com/photo/amgvKr4_700b.jpg');
     const [Id, setId] = useState('');
     const dispatch = useDispatch();
 

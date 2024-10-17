@@ -2,7 +2,7 @@ const productModel = require("../models/productModel");
 const sellerModel = require("../models/sellerModel");
 
 const createProduct = async (req, res) => {
-    console.log("request made under createProduct",req.body)
+    console.log("createProduct",req.body)
     try {
         let product = req.body;
         const existingProductCount = await productModel.countDocuments({ id: product.id });
@@ -14,11 +14,17 @@ const createProduct = async (req, res) => {
             payload: null,
             });
         }
+    
+        let user  = req.signedCookies;
+        const {id,username,email,isSeller} = user?.user;
+        console.log("product",id)
+        product.seller = id;
         let newProduct = await productModel.create(product);
+        await sellerModel.findOneAndUpdate({ id }, { $push: { listedProducts: newProduct._id } });
         return res.status(201).json({
             ok: true,
             message: "Product added successfully",
-            payload: newProduct,
+            seller: newProduct,
         });
     } catch (error) {
         console.log(error)
@@ -86,8 +92,7 @@ const sellerProfile = async (req, res) => {
       if (!seller) {
         return res.status(400).json({ message: "Invalid Request" });
       }
-      const getseller = await seller.findOne({email:email}).select("-password -salt");
-      console.log(email,username,id,token,account_type);
+      const getseller = await sellerModel.findOne({user:id}).select("-password -salt -_id -__v -user");
       return res.status(200).json({ seller: getseller , ok: true ,isAuthenticated:true,message:"seller is authenticated"});
     } catch (error) {
       console.log(error);

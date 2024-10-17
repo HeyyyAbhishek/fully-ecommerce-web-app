@@ -17,18 +17,21 @@ const initialState = {
 
 export const loadSellerProfile = createAsyncThunk(
     "seller/loadSellerProfile",
-    async () => {
-        const response = await fetch("/api/seller/profile",
-            {
+    async ( _,{rejectedWithValue}) => {
+        try{
+            const response = await fetch("http://localhost:4000/seller/profile", {
                 method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 credentials: "include",
-                headers: "application/json",
-                
+            });
+            if (response.ok) {
+                const seller = await response.json();
+                return seller;
             }
-        );
-        if (response.ok) {
-            const seller = await response.json();
-            return seller;
+        }catch{
+            return rejectedWithValue("Failed to fetch seller profile");
         }
     }
 )
@@ -76,25 +79,27 @@ const sellerSlice = createSlice({
     name: "seller",
     initialState: initialState,
     reducers:{},
-    extraReducers:{
-        [loadSellerProfile.fulfilled]: (state, action) => {
+    extraReducers:(builder)=>{
+        builder.addCase(loadSellerProfile.fulfilled, (state, action) => {
+            console.log(action.payload);
             state.seller = action.payload;
-        },
-        [loadSellerProfile.rejected]: (state, action) => {
+        });
+        builder.addCase(loadSellerProfile.rejected, (state, action) => {
+            console.log(action.error.message);
             state.error = action.error.message;
-        },
-        [addProduct.fulfilled]: (state, action) => {
+        });
+        builder.addCase(addProduct.fulfilled, (state, action) => {
+            state.seller = action.payload.seller;
+        });
+        builder.addCase(addProduct.rejected, (state, action) => {
+            state.error = action.error.message;
+        });
+        builder.addCase(updateProduct.fulfilled, (state, action) => {
             state.seller = action.payload;
-        },
-        [addProduct.rejected]: (state, action) => {
+        });
+        builder.addCase(updateProduct.rejected, (state, action) => {
             state.error = action.error.message;
-        },
-        [updateProduct.fulfilled]: (state, action) => {
-            state.seller = action.payload;
-        },
-        [updateProduct.rejected]: (state, action) => {
-            state.error = action.error.message;
-        }
+        });
     }
 });
 

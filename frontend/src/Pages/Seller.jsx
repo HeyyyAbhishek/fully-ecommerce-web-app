@@ -1,8 +1,9 @@
 // src/Pages/Seller.jsx
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, NavLink } from "react-router-dom";
-// import { fetchProducts, fetchOrders, fetchProfile } from '../redux/slices/sellerSlice';
+import { Link, NavLink ,Routes,Route} from "react-router-dom";
+import  ManageProduct  from './seller/manageProduct';
+import AddProduct  from './seller/addProduct';
 
 const SellerDashboard = () => {
     const dispatch = useDispatch();
@@ -19,17 +20,7 @@ const SellerDashboard = () => {
                 <div className="bg-white shadow-md rounded-lg p-4">
                     <h2 className="text-xl font-semibold mb-2">Products</h2>
                     <p className="mb-4">Manage your products, add new ones, and update existing listings.</p>
-                     <NavLink to="/seller/manageproduct" className="bg-blue-500 text-white px-4 py-2 rounded"><button className="bg-blue-500 text-white px-4 py-2 rounded">Manage Products</button></NavLink>
-                </div>
-                <div className="bg-white shadow-md rounded-lg p-4">
-                    <h2 className="text-xl font-semibold mb-2">Orders</h2>
-                    <p className="mb-4">View and manage your orders, update order status, and more.</p>
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded">View Orders</button>
-                </div>
-                <div className="bg-white shadow-md rounded-lg p-4">
-                    <h2 className="text-xl font-semibold mb-2">Profile</h2>
-                    <p className="mb-4">Update your profile information and settings.</p>
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded">Edit Profile</button>
+                     <NavLink to="manageproduct" className="bg-blue-500 text-white px-4 py-2 rounded"><button className="bg-blue-500 text-white px-4 py-2 rounded">Manage Products</button></NavLink>
                 </div>
             </div>
         </div>

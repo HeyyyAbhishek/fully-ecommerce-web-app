@@ -135,13 +135,15 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(login.fulfilled, (state, action) => {
+        console.log("cookies ",action.payload)
         state.loading = false;
         state.login = true;
         state.isAuthenticated = true;
+        
         const userCookie = {
-          isAuthenticated: state.isAuthenticated,
-          login: state.login,
-          user: {username: state.user.username, email: state.user.email }
+          isAuthenticated: true,
+          login: true,
+          user: action.payload.user,
         };
         Cookies.set("userFrontend",JSON.stringify(userCookie))
       })

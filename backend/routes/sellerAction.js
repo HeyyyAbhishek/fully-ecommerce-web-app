@@ -5,7 +5,7 @@ const authorisation = require('../service/security/authorisation');
 
 const sellerController = require('../controllers/sellerController');
 
-router.get("seller",authentication,authorisation("seller"),sellerController.sellerProfile);
+router.get("/profile",authentication,authorisation("seller"),sellerController.sellerProfile);
 router.post("/createProduct",sellerController.createProduct);
 router.put("/updateProduct",authentication,authorisation("seller"),sellerController.updateProduct);
 router.delete("/deleteProduct",authentication,authorisation("seller"),sellerController.deleteProduct);

@@ -11,11 +11,7 @@ const HomePage = () => {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.productData.products);
 
-    useEffect(() => {
-        dispatch(fetchProductData());
-        dispatch(getInfoFromCookie());
-        dispatch(getDetails());
-    }, [dispatch]);
+
     const categories = [...new Set(products.map((product) => product.category))];
 
 

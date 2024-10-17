@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 const sellerSchema = new Schema({
     listedProducts: {
-        type: [Number],
+        type: [{ type: Schema.Types.ObjectId, ref: 'product' }],
         default: [],
     },
     orderHistory: {
-        type: [Number],
+        type: [Schema.Types.Mixed],
         default: [],
     },
     sellerSpecificField: {
@@ -17,7 +17,6 @@ const sellerSchema = new Schema({
     },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'user',
         required: true,
     },
 });
