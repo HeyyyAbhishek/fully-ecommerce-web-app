@@ -2,18 +2,31 @@ import {useEffect} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart,removeFromCart } from "../Redux/features/cartReducers";
 import { Link } from 'react-router-dom';
-import {fetchProductData } from '../Redux/data/FakeData';
-import { getInfoFromCookie } from '../Redux/features/loginReducers';
+import { fetchProductData } from '../Redux/data/FakeData';
+import { verifyLogin } from '../Redux/features/loginReducers';
 import { getDetails } from '../Redux/features/userReducer';
-// import PopUpBtn from "../utils/features";
+import { loadSellerProfile } from '../Redux/features/sellerReducer';
 
 const HomePage = () => {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.productData.products);
 
-
     const categories = [...new Set(products.map((product) => product.category))];
-
+    useEffect(()=>{
+        console.log("App.js useEffect");
+    
+        const fetchData = async () => {
+         await dispatch(fetchProductData())
+         const res = await dispatch(verifyLogin()).unwrap()
+         const deta = await dispatch(getDetails()).unwrap()
+         if(res.user.isSeller){
+           dispatch(loadSellerProfile())
+         }
+         console.log("Response:",deta)
+    
+        }
+        fetchData()
+      },[])
 
     const handleAddToCart = (product, target) => {
         let quantity = parseInt(target.value);

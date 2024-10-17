@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { login } from '../Redux/features/loginReducers';
-import {getDetails, setUser} from "../Redux/features/userReducer"
+import { setUser } from "../Redux/features/userReducer";
 
 const Signin = () => {
-    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // Set up navigation
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,7 +17,7 @@ const Signin = () => {
         try {
             const data = await dispatch(login({ email, password }));
             dispatch(setUser(data.payload));
-            navigate('/');
+            navigate("/"); // Redirect to the home page on successful login
         } catch (err) {
             console.error('Login failed', err);
             setError('Login failed. Please check your credentials and try again.');

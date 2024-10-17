@@ -8,7 +8,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const isSeller = useSelector((state) => state.user.user.isSeller);
+  const isSeller = useSelector((state) => state.auth.user.isSeller);
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 

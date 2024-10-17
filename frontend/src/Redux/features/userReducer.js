@@ -7,31 +7,6 @@ const initialState = {
     loading: false,
 };
 
-export const verifyLogin = createAsyncThunk("user/verifyLogin",
-    async (_, { rejectWithValue }) => { // Removed destructuring for the first argument
-        try {
-            const response = await fetch("http://localhost:4000/auth/verifyLogin", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                return rejectWithValue(errorData);
-            }
-
-            const res = await response.json();
-            console.log("User response:", res);
-            return res;
-        } catch (err) {
-            console.error("User error:", err);
-            return rejectWithValue(err.message || "User failed");
-        }
-    }
-);
 
 export const getDetails = createAsyncThunk("user/getDetails",
     async (_, { rejectWithValue }) => { 
@@ -104,20 +79,6 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(verifyLogin.pending, (state) => {
-                state.error = "";
-                state.loading = true; // Set loading to true when pending
-            })
-            .addCase(verifyLogin.fulfilled, (state, action) => {
-                console.log("Verify login action payload:", action.payload);
-                state.user = action.payload; // Assuming the payload is the user data
-                state.loading = false; // Set loading to false when fulfilled
-            })
-            .addCase(verifyLogin.rejected, (state, action) => {
-                console.log("Verify login rejected action payload:", action.payload);
-                state.loading = false; // Set loading to false on rejection
-                state.error = action.payload?.message || action.payload || "Verify login failed"; // Update error state
-            })
             .addCase(getDetails.pending, (state) => {
                 state.error = "";
                 state.loading = true;

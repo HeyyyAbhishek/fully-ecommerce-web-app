@@ -2,8 +2,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, NavLink ,Routes,Route} from "react-router-dom";
-import  ManageProduct  from './seller/manageProduct';
-import AddProduct  from './seller/addProduct';
 
 const SellerDashboard = () => {
     const dispatch = useDispatch();

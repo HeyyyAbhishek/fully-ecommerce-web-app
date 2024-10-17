@@ -1,5 +1,5 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-
+console.log("sellerReducer.js");
 const initialState = {
     seller: {
         id: 0,

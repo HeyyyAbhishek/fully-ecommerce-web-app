@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+console.log("cartReducers.js");
 
 const initialState = {
     cart: [],

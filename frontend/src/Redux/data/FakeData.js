@@ -1,7 +1,7 @@
 // In productReducers.js
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+console.log("productReducers.js");
 let initialState = {
   products: [],
   loading: false,
@@ -32,7 +32,6 @@ const productData = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductData.fulfilled, (state, action) => {
-        console.log("Fulfilled",action.payload);
         state.products = action.payload.payload;
 
       })

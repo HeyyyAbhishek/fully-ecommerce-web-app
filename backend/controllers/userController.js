@@ -35,7 +35,7 @@ const login = async (req, res) => {
         id: user._id,
         email: user.email,
         account_type: user.account_type,
-
+        isSeller: user.isSeller,
       },
     };
 
@@ -51,6 +51,7 @@ const login = async (req, res) => {
         email: user.email,
         token: token,
         account_type: user.account_type,
+        isSeller: user.isSeller,  
       },
       {
         httpOnly: true,
@@ -126,13 +127,22 @@ const register = async (req, res) => {
 };
 
 const verifyLogin = async (req, res) => {
+  console.log("verifyLogin called");
   try {
-    const user = req.user;
+    const user = req.signedCookies.user;
+    console.log(user);
     if (!user) {
       return res.status(400).json({ message: "Invalid Request" });
     }
+    const {email,username,id,account_type,isSeller} = user;
     console.log("user in verifyLogin")
-    return res.status(200).json({ user: user , ok: true ,isAuthenticated:true,message:"User is authenticated"});
+    return res.status(200).json({ user:{
+      email:email,
+      username:username,
+      id:id,
+      account_type:account_type,
+      isSeller:isSeller
+    }, ok: true ,isAuthenticated:true,message:"User is authenticated"});
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Server Error" });
