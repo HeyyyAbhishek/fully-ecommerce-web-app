@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const User = require("../models/userModel"); // Assuming you have a Mongoose model defined
+const User = require("../models/userModel");
+const sellerModel = require("../models/sellerModel") // Assuming you have a Mongoose model defined
 
 const login = async (req, res) => {
   console.log("login called");
@@ -91,43 +92,56 @@ const logout = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    let { username, password, email, contact_number, isSeller } = req.body;
+    let { username, password, email, contact_number, isSeller = false } = req.body;
+
     if (!username || !password || !email || !contact_number) {
-      return res.status(400).json({ message: "Invalid Request" });
+      return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Check if user already exists
-    let user = await User.findOne({ username: username });
-
-    if (user) {
-      return res.status(400).json({ message: "User already exists" });
+    let existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    if (existingUser) {
+      return res.status(400).json({ message: "User with given username or email already exists" });
     }
 
-    // Password Hashing
+    console.log("seller type", isSeller);
+
+    // Generate salt and hash the password
     const salt = await bcrypt.genSalt(10);
-    password = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create new user
-    user = new User({
-      username: username,
-      password: password,
-      email: email,
-      contact_number: contact_number,
-      salt: salt,
-      isSeller: isSeller,
+    const user = new User({
+      username,
+      password: hashedPassword,
+      email,
+      contact_number,
+      isSeller,
+      salt,
     });
+
+    // Create new seller profile if isSeller is true
+    if (isSeller) {
+      const seller = new sellerModel({
+        listedProducts: [],
+        orderHistory: [],
+        sellerSpecificField: "",
+        user: user._id,
+      });
+      await seller.save();
+    }
 
     await user.save();
 
-    return res.status(200).json({ message: "User Created", ok: true });
+    return res.status(201).json({ message: "User Created", ok: true });
   } catch (error) {
-    console.log(error);
+    console.error("Registration error:", error);
     return res.status(500).json({ message: "Server Error" });
   }
 };
 
+
+
 const verifyLogin = async (req, res) => {
-  console.log("verifyLogin called");
   try {
     const user = req.signedCookies.user;
     console.log(user);

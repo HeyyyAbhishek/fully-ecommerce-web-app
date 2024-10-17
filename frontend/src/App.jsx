@@ -10,13 +10,35 @@ import Cart from "./Pages/Cart.jsx";
 import Payment from "./Pages/payment.jsx";
 import Profile from "./Pages/Profile.jsx";
 import Seller from "./Pages/Seller.jsx";
-import { useDispatch ,useSelector} from "react-redux";
+import ManageProduct from "./Pages/seller/manageProduct.jsx";
 
+
+import { fetchProductData } from './Redux/data/FakeData';
+import { verifyLogin } from './Redux/features/loginReducers';
+import { getDetails } from './Redux/features/userReducer';
+import { loadSellerProfile } from './Redux/features/sellerReducer';
+
+
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 function App() {
-  console.log("App.js");
   const dispatch = useDispatch();
+  const location = useLocation(); // Get the current location
 
+  useEffect(() => {
+      const fetchData = async () => {
+          console.log("Fetching data on route change:", location.pathname);
+          await dispatch(fetchProductData());
+          const res = await dispatch(verifyLogin()).unwrap();
+          await dispatch(getDetails()).unwrap();
+          if (res.user.isSeller) {
+              dispatch(loadSellerProfile());
+          }
+      };
+      fetchData();
+  }, [location.pathname, dispatch]);
 
   return (
     <>
@@ -30,6 +52,8 @@ function App() {
         <Route path="/checkout" element={<Payment />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/seller" element={<Seller />} />
+        <Route path="/seller/manageproduct" element={<ManageProduct />} />
+        <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </>
   );

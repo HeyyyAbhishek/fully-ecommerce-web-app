@@ -12,21 +12,21 @@ const HomePage = () => {
     const products = useSelector((state) => state.productData.products);
 
     const categories = [...new Set(products.map((product) => product.category))];
-    useEffect(()=>{
-        console.log("App.js useEffect");
+    // useEffect(()=>{
+    //     console.log("App.js useEffect");
     
-        const fetchData = async () => {
-         await dispatch(fetchProductData())
-         const res = await dispatch(verifyLogin()).unwrap()
-         const deta = await dispatch(getDetails()).unwrap()
-         if(res.user.isSeller){
-           dispatch(loadSellerProfile())
-         }
-         console.log("Response:",deta)
+    //     const fetchData = async () => {
+    //      await dispatch(fetchProductData())
+    //      const res = await dispatch(verifyLogin()).unwrap()
+    //      const deta = await dispatch(getDetails()).unwrap()
+    //      if(res.user.isSeller){
+    //        dispatch(loadSellerProfile())
+    //      }
+    //      console.log("Response:",deta)
     
-        }
-        fetchData()
-      },[])
+    //     }
+    //     fetchData()
+    //   },[])
 
     const handleAddToCart = (product, target) => {
         let quantity = parseInt(target.value);

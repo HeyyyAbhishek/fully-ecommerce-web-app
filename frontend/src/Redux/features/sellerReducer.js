@@ -89,6 +89,7 @@ const sellerSlice = createSlice({
             state.error = action.error.message;
         });
         builder.addCase(addProduct.fulfilled, (state, action) => {
+            
             state.seller = action.payload.seller;
         });
         builder.addCase(addProduct.rejected, (state, action) => {

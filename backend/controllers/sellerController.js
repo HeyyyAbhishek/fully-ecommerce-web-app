@@ -2,39 +2,69 @@ const productModel = require("../models/productModel");
 const sellerModel = require("../models/sellerModel");
 
 const createProduct = async (req, res) => {
-    console.log("createProduct",req.body)
-    try {
-        let product = req.body;
+    try{
+        const product = req.body;
+        console.log(product);
+        const sellerId = product.seller
+        
+        // Check if a product with the same ID exists
+        const {id,username,email,isSeller} = req.signedCookies.user;
+        console.log("User:",id,username,email,isSeller);
         const existingProductCount = await productModel.countDocuments({ id: product.id });
-        console.log("existingProductCount",existingProductCount)
         if (existingProductCount > 0) {
             return res.status(400).json({
-            ok: false,
-            message: "Product with this ID already exists",
-            payload: null,
+                ok: false,
+                message: "Product with this ID already exists",
+                payload: null,
             });
         }
-    
-        let user  = req.signedCookies;
-        const {id,username,email,isSeller} = user?.user;
-        console.log("product",id)
-        product.seller = id;
-        let newProduct = await productModel.create(product);
-        await sellerModel.findOneAndUpdate({ id }, { $push: { listedProducts: newProduct._id } });
+
+        if (!isSeller) {
+            return res.status(403).json({
+                ok: false,
+                message: "Only sellers can add products",
+                payload: null,
+            });
+        }
+
+  
+
+        // Create the product
+        const newProduct = await productModel.create(product);
+
+        if (!newProduct) {
+            return res.status(400).json({
+                ok: false,
+                message: "Failed to create product",
+                payload: null,
+            });
+        }
+        const seller = await sellerModel.findById(sellerId);
+        if(!seller){
+            return res.status(400).json({
+                ok: false,
+                message: "Seller not found",
+                payload: null,
+            });
+        }
+        await sellerModel.findByIdAndUpdate(sellerId,{ $push: { listedProducts: newProduct._id } });
+        
         return res.status(201).json({
             ok: true,
             message: "Product added successfully",
-            seller: newProduct,
+            payload: newProduct,
         });
-    } catch (error) {
-        console.log(error)
+
+    }catch(error){
+        console.log(error);
         return res.status(500).json({
             ok: false,
             message: "Internal Server Error",
             payload: null,
         });
     }
-}
+};
+
 
 const updateProduct = async (req, res) => {
     try{
@@ -92,7 +122,7 @@ const sellerProfile = async (req, res) => {
       if (!seller) {
         return res.status(400).json({ message: "Invalid Request" });
       }
-      const getseller = await sellerModel.findOne({user:id}).select("-password -salt -_id -__v -user");
+      const getseller = await sellerModel.findOne({user:id}).select("-password -salt -__v -user");
       return res.status(200).json({ seller: getseller , ok: true ,isAuthenticated:true,message:"seller is authenticated"});
     } catch (error) {
       console.log(error);
