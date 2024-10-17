@@ -22,6 +22,7 @@ import { loadSellerProfile } from './Redux/features/sellerReducer';
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import AddProduct from "./Pages/seller/addProduct.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/seller" element={<Seller />} />
         <Route path="/seller/manageproduct" element={<ManageProduct />} />
+        <Route path="/seller/addproduct" element={<AddProduct />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </>

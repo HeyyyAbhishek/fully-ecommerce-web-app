@@ -22,7 +22,7 @@ const AddProduct = () => {
         try {
             const data = await dispatch(addProduct(product));
             console.log("Product added", data);
-            navigate("/seller/manageproduct");
+            navigate("/seller");
         } catch (err) {
             console.error("Failed to add product", err);
         }
