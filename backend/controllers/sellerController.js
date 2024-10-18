@@ -90,30 +90,70 @@ const updateProduct = async (req, res) => {
         });
     }
 }
-const deleteProduct= async(req,res)=>{
-    try{
-        let { id } = req.params;
-        let product = await productModel.findByIdAndDelete(id)
-        if (!product) {
-            return res.status(400).json({
-                ok: false,
-                message: "Product not found",
-                payload: null,
-            });
-        }
-        return res.status(200).json({
-            ok: true,
-            message: "Product deleted successfully",
-            payload: product,
+const deleteProduct = async (req, res) => {
+    try {
+      const sellerId = req.body.data.seller;  // Correctly using `sellerId`
+      const productId = req.body.data.product; // Correctly using `productId`
+  
+      console.log("Seller:", sellerId);
+      console.log("Product:", productId);
+  
+      let product = await productModel.findById(productId);
+  
+      if (!product) {
+        return res.status(400).json({
+          ok: false,
+          message: "Product not found",
+          payload: null,
         });
-    }catch (error) {
-        return res.status(500).json({
-            ok: false,
-            message: "Internal Server Error",
-            payload: null,
+      }
+  
+      // Find the seller by sellerId
+      const seller = await sellerModel.findById(sellerId);
+  
+      if (!seller) {
+        return res.status(400).json({
+          ok: false,
+          message: "Seller not found",
+          payload: null,
         });
+      }
+  
+      // Check if the seller matches the product's seller field
+      if (product.seller.toString() !== sellerId) {
+        return res.status(403).json({
+          ok: false,
+          message: "Unauthorized action: Seller does not own this product",
+          payload: null,
+        });
+      }
+  
+      
+      if (seller.listedProducts.includes(productId)) {
+        await sellerModel.findByIdAndUpdate(sellerId, {
+          $pull: { listedProducts: productId }, 
+        });
+      }
+  
+      // Delete the product from productModel
+      await productModel.findByIdAndDelete(productId);
+  
+      return res.status(200).json({
+        ok: true,
+        message: "Product deleted successfully",
+        payload: product,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        ok: false,
+        message: "Internal Server Error",
+        payload: null,
+      });
     }
-}
+  };
+  
+  
 
 const sellerProfile = async (req, res) => {
     try {

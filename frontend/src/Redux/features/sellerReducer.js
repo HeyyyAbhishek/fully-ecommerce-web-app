@@ -74,6 +74,22 @@ export const updateProduct = createAsyncThunk(
     }
 )
 
+export const deleteProduct = createAsyncThunk("seller/deleteProduct", async (data) => {
+    console.log("deleteProduct", data);
+    const response = await fetch(`http://localhost:4000/seller/deleteProduct`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({data}),
+    });
+    if (response.ok) {
+        const seller = await response.json();
+        return seller;
+    }
+});
+
 
 const sellerSlice = createSlice({
     name: "seller",

@@ -20,6 +20,11 @@ const SellerDashboard = () => {
                     <p className="mb-4">Manage your products, add new ones, and update existing listings.</p>
                      <NavLink to="manageproduct" className="bg-blue-500 text-white px-4 py-2 rounded"><button className="bg-blue-500 text-white px-4 py-2 rounded">Manage Products</button></NavLink>
                 </div>
+                <div className="bg-white shadow-md rounded-lg p-4">
+                    <h2 className="text-xl font-semibold mb-2">Profile</h2>
+                    <p className="mb-4">Manage Your Profile</p>
+                     <NavLink to="/profile" className="bg-blue-500 text-white px-4 py-2 rounded"><button className="bg-blue-500 text-white px-4 py-2 rounded">Profile</button></NavLink>
+                </div>
             </div>
         </div>
     );

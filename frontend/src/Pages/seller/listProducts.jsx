@@ -1,27 +1,53 @@
-import { useSelector } from "react-redux";
-import { useEffect, useMemo } from "react";
+import { useSelector,useDispatch } from "react-redux";
+import { useState, useMemo ,useEffect} from "react";
 import { Link } from "react-router-dom";
-
+import { deleteProduct } from "../../Redux/features/sellerReducer";
 
 const ListProduct = () => {
+  const dispatch = useDispatch();
 
+  const sellerId = useSelector((state) => state.seller?.seller?.seller?._id);
+  console.log("sellerId", sellerId);
 
- // Add dependencies if needed
-  const productId = useSelector((state) => {
-    return state.seller.seller?.seller?.listedProducts;
-  });
-  const products = useSelector((state) => state.productData.products);
+  const productIds = useSelector((state) => state.seller?.seller?.seller?.listedProducts || []);
+  
+
+  const products = useSelector((state) => state.productData?.products || []);
+  
+
   const sellerProducts = useMemo(() => {
-    return products.filter((product) => productId.includes(product._id));
-  }, [products, productId]);
+    return products.filter((product) => productIds.includes(product._id));
+  }, [products, productIds]);
 
-  console.log("Seller Products:", sellerProducts);
-  // Optional: further memoize sellerProducts if complex calculations are involved
 
+  const [sellerProduct, setSellerProduct] = useState([]);
+
+  
+  useEffect(() => {
+    setSellerProduct(sellerProducts);
+  }, [sellerProducts]);
+
+  const handleDelete = (id, sellerId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    if (confirmDelete) {
+      const data = { seller: sellerId, product: id };
+      
+      // Dispatch the delete action
+      dispatch(deleteProduct(data))
+        .then(() => {
+          setSellerProduct(sellerProduct.filter((product) => product._id !== id));
+        })
+        .catch((error) => {
+          console.error("Error deleting product:", error);
+        });
+    }
+  };
+
+  console.log("sellerProduct", sellerProduct);
   return (
     <>
       <ul className="w-full grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-4">
-        {sellerProducts.map((product) => (
+        {sellerProduct.map((product) => (
           <li
             key={product._id}
             className="relative rounded-lg shadow-md border border-gray-200 overflow-hidden bg-white transition-transform transform hover:scale-105"
@@ -54,7 +80,7 @@ const ListProduct = () => {
                   View Details
                 </Link>
                 <button
-                  onClick={() => handleDelete(product._id)}
+                  onClick={() => handleDelete(product._id,sellerId)}
                   className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg font-bold transition"
                 >
                   Delete

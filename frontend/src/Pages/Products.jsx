@@ -7,7 +7,7 @@ const ProductPage = () => {
   const dispatch = useDispatch();
   const id = useParams().id;
   let product = useSelector((state)=>{
-    return state.productData.find((product)=> product.id === parseInt(id));
+    return state.productData.products.find((product)=> product.id === parseInt(id));
   })
    // Assuming you're using React Router for routing
    console.log("Product",product);

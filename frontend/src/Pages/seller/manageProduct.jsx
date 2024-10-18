@@ -1,6 +1,7 @@
 import ListProduct from "./listProducts";
 import AddProduct from "./addProduct";
 import { Link } from "react-router-dom";
+import { deleteProduct,addProduct } from "../../Redux/features/sellerReducer";
 
 const ManageProduct = () => {
 
@@ -12,7 +13,7 @@ const ManageProduct = () => {
                 </div>
             </div>
             <div>
-                <ListProduct />
+                <ListProduct props={deleteProduct} />
             </div>
         </div>
     );
