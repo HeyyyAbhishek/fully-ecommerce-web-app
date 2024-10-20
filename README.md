@@ -1,93 +1,121 @@
+---
 
 # eCommerce Web App - Core X Stackup Dev Challenge
 
-### Technologies Used
+Welcome to the **eCommerce Web App**, a robust platform designed for browsing products, managing carts, and completing purchases with ease. This project is part of the **Core X Stackup Developer Challenge**.
 
-**Front-end:**
+---
 
-- **React**: A JavaScript library for building user interfaces.
-- **React-Redux**: State Management Library.
-- **ExpressJS**: A web application framework for Node.js to build RESTful APIs.
-- **Mongoose**: An ODM (Object Data Modeling) library for MongoDB and Node.js.
-- **js-cookie**: A simple JavaScript API for handling cookies.
-- **Vite**: A modern frontend build tool that provides a fast development environment and a highly optimized production build.
+## Technologies Used
 
-**Please see `package.json` for a complete list of dependencies.**
+### **Front-End:**
+- **[React](https://reactjs.org/)**: A powerful JavaScript library for building dynamic user interfaces.
+- **[React-Redux](https://react-redux.js.org/)**: A state management library for seamless application state handling.
+- **[Vite](https://vitejs.dev/)**: A fast development environment and optimized production build tool for modern web applications.
+- **[js-cookie](https://github.com/js-cookie/js-cookie)**: A simple and lightweight library to manage cookies in the browser.
+
+### **Back-End:**
+- **[ExpressJS](https://expressjs.com/)**: A flexible web application framework for building APIs in Node.js.
+- **[Mongoose](https://mongoosejs.com/)**: An ODM (Object Data Modeling) library to interact with MongoDB.
+
+For the full list of dependencies, please refer to `package.json`.
+
+---
+
+## ⚙️ Plugins
 
 **Official Plugins:**
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md): Uses [Babel](https://babeljs.io/) for Fast Refresh.
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc): Uses [SWC](https://swc.rs/) for Fast Refresh.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md): Utilizes [Babel](https://babeljs.io/) for fast refresh during development.
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc): Integrates [SWC](https://swc.rs/) for even faster refresh.
 
-### Getting Started
+---
 
-To get started with this project, follow the steps below:
+## 🛠️ Getting Started
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/HeyyyAbhishek/fully-ecommerce-web-app.git
-   cd fully-ecommerce-web-app
-   ```
+Follow these steps to get the project up and running:
 
-2. **Install Dependencies**
-   Ensure you have [Node.js](https://nodejs.org/) installed. Then run the following command to install all required dependencies for frontend:
-   ```bash
-   cd frontend
-   npm install
-   ```
-   
-2. **Install Dependencies**
-   Ensure you have [Node.js](https://nodejs.org/) installed. Then run the following command to install all required dependencies for backend:
-   ```bash
-   cd backend
-   npm install
-   ```
+### 1. **Clone the Repository**
+```bash
+git clone https://github.com/HeyyyAbhishek/fully-ecommerce-web-app.git
+cd fully-ecommerce-web-app
+```
 
-3. **Set Up Environment Variables**
-   Create a `.env` file in :
-      ```bash
-   cd frontend
-   ```
-     inside it  Create a `Token`
-   ```bash
-    TOKEN_KEY="Your Token Here"
-   ``` 
+### 2. **Install Frontend Dependencies**
+Ensure that [Node.js](https://nodejs.org/) is installed, then run:
+```bash
+cd frontend
+npm install
+```
 
-5. **Run the Development Server**
-   Start the Frontend server with the following command in the `Frontend Directory` :
-   ```bash
-   npm run dev
-   ```
-   Start the Backend server with the following command in the `Backend Directory` :
-   ```bash
-   node app.js
-   ```
+### 3. **Install Backend Dependencies**
+```bash
+cd backend
+npm install
+```
 
-6. **Open in Browser**
-   Open your web browser and navigate to `http://localhost:5173` (or the port specified in your configuration) to view the application.
+### 4. **Set Up Environment Variables**
+Navigate to the backend directory and create a `.env` file with your token:
+```bash
+cd backend
+```
+In the `.env` file:
+```bash
+TOKEN_KEY="Your Token Here"
+```
 
-### Features
+### 5. **Run Development Servers**
 
-- User Authentication: Secure login and registration.
-- Product Listings: Browse a variety of products.
-- Shopping Cart: Add, remove, and manage items in the shopping cart.
-- Checkout Process: Complete purchases with ease.
-- Responsive Design: Works on desktop and mobile devices.
+- Start the frontend server:
+  ```bash
+  cd frontend
+  npm run dev
+  ```
 
-### Future Improvements
+- Start the backend server:
+  ```bash
+  cd backend
+  node app.js
+  ```
 
-- Implement user reviews and ratings for products.
-- Enhance the search functionality to include filters.
-- Add payment processing using Stripe or PayPal.
-- Optimize performance and improve SEO.
+### 6. **Open the Application**
+Go to `http://localhost:5173` (or your configured port) in your browser to view the web app.
 
-### Contributing
+### 7. **Admin Privileges**
+To make a user an **ADMIN**, change the `account_type` field in the MongoDB database from `user` to `admin`.
 
-Contributions are welcome! If you have suggestions for improvements or want to add features, please open an issue or submit a pull request.
+---
 
-### License
+##  Features
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- **User Authentication**: Secure registration and login system.
+- **Product Listings**: Browse through an extensive collection of products.
+- **Shopping Cart**: Easily add, remove, and manage items.
+- **Checkout Process**: Streamlined checkout for quick and efficient purchases.
+- **Responsive Design**: Optimized for both desktop and mobile devices.
 
-### Contact
+---
 
-For inquiries or support, please reach out to [[heyyyabhishek](https://x.com/heyyyabhishek)].
+##  Future Improvements
+
+- Implement product reviews and ratings.
+- Enhance search with advanced filters.
+- Integrate payment gateways such as Stripe or PayPal.
+- Improve overall performance and SEO.
+
+---
+
+## Contributing
+
+We welcome contributions! Feel free to submit pull requests or open issues if you have suggestions for new features or improvements.
+
+---
+
+##  License
+
+---
+
+## Contact
+
+For any questions or support, reach out to [@heyyyabhishek](https://x.com/heyyyabhishek).
+
+---

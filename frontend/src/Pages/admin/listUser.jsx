@@ -1,4 +1,4 @@
-import { loadAllUser } from "../../Redux/features/adminReducer"; 
+import { loadAllUser,deleteUser } from "../../Redux/features/adminReducer"; 
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -19,10 +19,10 @@ const ListUser = () => {
     }, [dispatch]);
 
     const handleDelete = async (userId) => {
-        // if (window.confirm("Are you sure you want to delete this user?")) {
-        //     await dispatch(deleteUser(userId));
-        //     setAllUser((prev) => prev.filter((user) => user._id !== userId));
-        // }
+        if (window.confirm("Are you sure you want to delete this user?")) {
+            await dispatch(deleteUser(userId));
+            setAllUser((prev) => prev.filter((user) => user._id !== userId));
+        }
     };
 
     return (

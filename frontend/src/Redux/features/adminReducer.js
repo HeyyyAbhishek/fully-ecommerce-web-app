@@ -49,6 +49,23 @@ export const loadAllUser = createAsyncThunk(
     }
 )
 
+export const deleteUser = createAsyncThunk("admin/deleteUser", async (userId, {rejectedWithValue}) => {
+    try {
+        const response = await fetch(`http://localhost:4000/admin/user`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({userId}),
+        });
+        if (response.ok) {
+            return userId;
+        }
+    } catch {
+        return rejectedWithValue("Failed to delete user");
+    }
+});
 
 const adminReducer = createSlice({
     name: "admin",

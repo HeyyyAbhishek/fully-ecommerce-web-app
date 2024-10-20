@@ -58,7 +58,7 @@ const Cart = () => {
                                             className="w-10 h-10 object-cover rounded"
                                         />
                                     </td>
-                                    <td className="py-2">${item.price.toFixed(2)}</td>
+                                    <td className="py-2">Rs- {item.price.toFixed(2)}</td>
                                     <td className="py-2">
                                         <input
                                             type="number"
@@ -68,7 +68,7 @@ const Cart = () => {
                                             className="w-16 p-1 border rounded"
                                         />
                                     </td>
-                                    <td className="py-2">${(item.price * item.quantity).toFixed(2)}</td>
+                                    <td className="py-2">Rs- {(item.price * item.quantity).toFixed(2)}</td>
                                     <td className="py-2">
                                         <button
                                             onClick={() => handleRemove(item.id)}
@@ -82,7 +82,7 @@ const Cart = () => {
                         </tbody>
                     </table>
                     <div className="mt-4 text-right">
-                        <h2 className="text-xl font-bold">Total: ${totalPrice.toFixed(2)}</h2>
+                        <h2 className="text-xl font-bold">Total: Rs- {totalPrice.toFixed(2)}</h2>
                         <button onClick={()=>{
                             HandleChekout();
                         }}  className="bg-blue-500 text-white px-4 py-2 rounded mt-2">Proceed to Checkout</button>

@@ -72,9 +72,9 @@ const update_user_profile = async (req, res) => {
 
 const delete_user_profile = async (req, res) => {
     try {
-        let user_id = req.params.user_id || req.body.username
-
-        let user = await User.findOne({ where: { id: user_id } })
+        console.log("under delete functions",req.body.userId)
+        let user_id = req.body.userId
+         let user = await User.findById(user_id)
 
         if (!user) {
             return res.status(400).send({
@@ -84,9 +84,7 @@ const delete_user_profile = async (req, res) => {
             })
         }
 
-        let deleted = await User.destroy({
-            where: { id: user_id }
-        })
+        let deleted = await User.findByIdAndDelete(user_id)
 
         if (deleted) {
             return res.status(200).send({
