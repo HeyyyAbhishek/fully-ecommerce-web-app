@@ -9,6 +9,5 @@ router.get("/profile",authentication,authorisation("seller"),sellerController.se
 router.post("/createProduct",sellerController.createProduct);
 router.put("/updateProduct",authentication,authorisation("seller"),sellerController.updateProduct);
 router.delete("/deleteProduct",authentication,authorisation("seller"),sellerController.deleteProduct);
-// router.get("/viewProduct",authentication,authorisation("seller"),sellerController.viewProduct);
  
 module.exports = router;

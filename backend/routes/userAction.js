@@ -15,7 +15,5 @@ router.get('/verifyLogin', (req, res) => userController.verifyLogin(req, res))
 router.get("/getDetails" , authentication, authorisation("user"),(req,res) => userController.getDetails(req,res))
 router.get('/user', authentication, authorisation("user"), (req, res) => userController.load_user_profile(req, res))
 router.put('/user', authentication, authorisation("user"), (req, res) => userController.update_user_profile(req, res))
-router.get('/user/userList',authentication,authorisation("user"), (req, res) => userController.all_user_profile(req, res))
-router.delete('/user/id/:user_id',authentication,authorisation("user"), (req, res) => userController.delete_user_profile(req, res))
 
 module.exports = router;
